@@ -1,10 +1,8 @@
-# #!/usr/bin/python
+#!/usr/bin/python
 
 import rospy
 from sensor_msgs.msg import LaserScan
-
-import numpy as np 
-from rospy.numpy_msg import numpy_msg
+from std_msgs.msg import Float32
 
 class lidar:
 
@@ -13,18 +11,18 @@ class lidar:
         self.nameTopicSub = "/scan"
         self.nameTopicPub = "/scan_mod"
 
-        # Subscriptor
+        #Subscriptor
 
-        rospy.Subscriber(self.nameTopicSub, LaserScan, self.Lidar_Callback, queue_size=10)
-        # Publicador
+        rospy.Subscriber(self.nameTopicSub,LaserScan,self.lidar_callback,queue_size=10)
 
-        self.pub = rospy.Publisher(self.nameTopicPub, LaserScan,queue_size=10)
+        #Publicador
 
-    def Lidar_Callback(self, lidar_scan):
+        self.pub = rospy.Publisher(self.nameTopicPub,LaserScan,queue_size=10)
 
-        new_msg_laser_scan = lidar_scan
+    def lidar_callback(self, lidar_scan):
         
-        # new_msg_laser_scan.ranges > 10 == 0
-        # new_msg_laser_scan.ranges < 0.7 == 0
-
+        new_msg_laser_scan = lidar_scan #mensaje con info del callback
+        new_msg_laser_scan.range_max = (10.0)
+        new_msg_laser_scan.range_min = (0.0)
+                    
         self.pub.publish(new_msg_laser_scan)
