@@ -3,9 +3,6 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 
-import numpy as np 
-from rospy.numpy_msg import numpy_msg
-
 class lidar:
 
     def __init__(self):
@@ -21,10 +18,9 @@ class lidar:
         self.pub = rospy.Publisher(self.nameTopicPub, LaserScan,queue_size=10)
 
     def Lidar_Callback(self, lidar_scan):
-
         new_msg_laser_scan = lidar_scan
         
-        # new_msg_laser_scan.ranges > 10 == 0
-        # new_msg_laser_scan.ranges < 0.7 == 0
+        new_msg_laser_scan.range_max = 10.0
+        new_msg_laser_scan.range_min = 0.7
 
         self.pub.publish(new_msg_laser_scan)
